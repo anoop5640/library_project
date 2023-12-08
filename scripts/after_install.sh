@@ -17,6 +17,6 @@ install requirements.txt
 pip install -r /home/ubuntu/library_project/requirements.txt
 
 # run server
-python3 manage.py makemigrations
-python3 manage.py migrate
+#python3 manage.py makemigrations
+#python3 manage.py migrate
 screen -d -m python3 manage.py runserver 0.0.0.0:8000
