@@ -17,5 +17,4 @@ install requirements.txt
 pip install -r /home/ubuntu/library_project/requirements.txt
 
 # run server
-#screen -d -m python3 manage.py runserver 0:8000
-python3 manage.py runserver
+screen -d -m python3 manage.py runserver 0:8000
