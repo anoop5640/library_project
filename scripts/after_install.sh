@@ -1,22 +1,30 @@
 #!/usr/bin/env bash
+set -e  # Stop on any error
 
-# kill any servers that may be running in the background 
-sudo pkill -f runserver
+# Define the project directory
+PROJECT_DIR="/home/ubuntu/library_project"
 
-# kill frontend servers if you are deploying any frontend
-# sudo pkill -f tailwind
-# sudo pkill -f node
+# Navigate to the project directory
+cd $PROJECT_DIR
 
-cd /home/ubuntu/library_project/
+# Create a virtual environment if it does not exist
+if [ ! -d "venv" ]; then
+    python3 -m venv venv
+fi
 
-# activate virtual environment
-python3 -m venv venv
+# Activate the virtual environment
 source venv/bin/activate
 
-install requirements.txt
-pip install -r /home/ubuntu/library_project/requirements.txt
+# Install dependencies from requirements.txt
+pip install -r requirements.txt
 
-# run server
-screen -d -m python3 manage.py runserver 0:8000
+# Ensure Gunicorn is installed
+pip install gunicorn
 
-gunicorn library_project.wsgi:application --bind 0.0.0.0:8000
+# Run migrations and collect static files
+python3 manage.py migrate
+python3 manage.py collectstatic --noinput
+
+# Start Gunicorn server (replace 'quote_project.wsgi:application' with your Django app's WSGI application)
+#gunicorn quote_project.wsgi:application --bind 0.0.0.0:8000
+gunicorn library_project.wsgi:application --bind 0.0.0.0:8000 --daemon
