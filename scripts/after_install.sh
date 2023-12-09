@@ -7,6 +7,10 @@ PROJECT_DIR="/home/ubuntu/library_project"
 # Navigate to the project directory
 cd $PROJECT_DIR
 
+# Install python3-venv package (ensurepip dependency)
+sudo apt update
+sudo apt install -y python3-venv
+
 # Create a virtual environment if it does not exist
 if [ ! -d "venv" ]; then
     python3 -m venv venv
@@ -25,6 +29,5 @@ pip install gunicorn
 python3 manage.py migrate
 python3 manage.py collectstatic --noinput
 
-# Start Gunicorn server (replace 'quote_project.wsgi:application' with your Django app's WSGI application)
-#gunicorn quote_project.wsgi:application --bind 0.0.0.0:8000
+# Start Gunicorn server (replace 'library_project.wsgi:application' with your Django app's WSGI application)
 gunicorn library_project.wsgi:application --bind 0.0.0.0:8000 --daemon
